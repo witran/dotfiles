@@ -276,10 +276,7 @@ set -g status-position top
 
 
 # split panes using | and -
-bind | split-window -h
 bind - split-window -v
-unbind '"'
-unbind %
 
 # panes
 set -g pane-border-fg black

@@ -6,15 +6,15 @@ Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'joshdick/onedark.vim'
+Plug 'flazz/vim-colorschemes'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'Townk/vim-autoclose'
 call plug#end()
 
 map <up> <nop>
 map <down> <nop>
 map <left> <nop>
 map <right> <nop>
-
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Search
@@ -66,7 +66,9 @@ if has("gui_running")
 endif
 
 " color
-colo onedark
+set background=dark
+" colo onedark
+colo onedark 
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8

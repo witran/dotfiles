@@ -9,6 +9,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'Townk/vim-autoclose'
+Plug 'mhartington/oceanic-next'
 call plug#end()
 
 map <up> <nop>
@@ -67,8 +68,8 @@ endif
 
 " color
 set background=dark
-" colo onedark
-colo onedark 
+"colo onedark
+colorscheme OceanicNext
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8

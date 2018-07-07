@@ -2,9 +2,21 @@
   name = Will Tran
   email = dutran@zendesk.com
 
-[alias]
-  st = status
-  co = checkout
-
 [url "git@github.com:"]
   insteadOf = https://github.com/
+
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold

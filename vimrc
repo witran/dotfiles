@@ -13,6 +13,12 @@ Plug 'mhartington/oceanic-next'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'npm install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] }
+Plug 'tomasiser/vim-code-dark'
+Plug 'chriskempson/base16-vim'
+Plug 'jelera/vim-javascript-syntax'
+Plug 'hdima/python-syntax'
+Plug 'Yggdroot/indentLine'
+Plug 'rainbow_parentheses.vim'
 call plug#end()
 
 map <up> <nop>
@@ -71,8 +77,13 @@ endif
 
 " color
 set background=dark
-"colo onedark
-colorscheme OceanicNext
+colo onedark
+"colorscheme OceanicNext
+"colorscheme codedark
+"colorscheme base16-eighties
+"set background=light
+"colorscheme breezy
+let python_highlight_all = 1
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -113,3 +124,10 @@ set tw=500
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
+
+set number "Ruler"
+
+" NERDTree
+let mapleader = ","
+nmap <leader>ne :Ncopy-mode M-w send -X copy-pipe "reattach-to-user-namespace pbcopy" \; display-message "copied to system clipboard"
++bind -T copy-mode-vi y send -X copy-pipe "reattach-to-user-namespace pbcopy" \; display-message "copied to system clipboard"ERDTreeToggle<cr>

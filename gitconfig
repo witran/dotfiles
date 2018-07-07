@@ -20,3 +20,6 @@
   frag = magenta bold
   old = red bold
   new = green bold
+
+[core]
+  editor = vim

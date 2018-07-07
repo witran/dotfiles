@@ -1,0 +1,10 @@
+[user]
+  name = Will Tran
+  email = dutran@zendesk.com
+
+[alias]
+  st = status
+  co = checkout
+
+[url "git@github.com:"]
+  insteadOf = https://github.com/

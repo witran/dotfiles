@@ -1,3 +1,5 @@
+
+
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'fatih/vim-go', { 'do': 'vim +GoInstallBinaries +qall' }
@@ -18,7 +20,6 @@ Plug 'chriskempson/base16-vim'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'hdima/python-syntax'
 Plug 'Yggdroot/indentLine'
-Plug 'rainbow_parentheses.vim'
 call plug#end()
 
 map <up> <nop>
@@ -129,5 +130,4 @@ set number "Ruler"
 
 " NERDTree
 let mapleader = ","
-nmap <leader>ne :Ncopy-mode M-w send -X copy-pipe "reattach-to-user-namespace pbcopy" \; display-message "copied to system clipboard"
-+bind -T copy-mode-vi y send -X copy-pipe "reattach-to-user-namespace pbcopy" \; display-message "copied to system clipboard"ERDTreeToggle<cr>
+nmap <leader>ne :NERDTreeToggle<cr>

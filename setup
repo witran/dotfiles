@@ -1,4 +1,3 @@
-# TODO: check file exist & emit error before continuing
 ln -sf $(pwd)/tmux.conf $HOME/.tmux.conf
 ln -sf $(pwd)/tmux.conf.local $HOME/.tmux.conf.local
 ln -sf $(pwd)/vimrc $HOME/.vimrc
@@ -6,6 +5,3 @@ ln -sf $(pwd)/aliases $HOME/.aliases
 ln -sf $(pwd)/ps $HOME/.ps
 ln -sf $(pwd)/gitconfig $HOME/.gitconfig
 
-if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-  ln -sf $(pwd)/gtk.css $HOME/.config/gtk-3.0
-fi

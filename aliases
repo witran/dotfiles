@@ -1,3 +1,4 @@
+alias git="LANG=en_US git"
 alias gb='git branch'
 alias gl='git log'
 alias gap='git add -p'
@@ -13,3 +14,4 @@ alias gpush='git push'
 alias gs='git status'
 alias gco='git checkout'
 alias ll='ls -alh'
+alias gsub='git submodule update --init --recursive'

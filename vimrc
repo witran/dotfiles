@@ -24,6 +24,7 @@ Plug 'chriskempson/base16-vim'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'hdima/python-syntax'
 Plug 'Yggdroot/indentLine'
+Plug 'elixir-editors/vim-elixir'
 call plug#end()
 
 map <up> <nop>

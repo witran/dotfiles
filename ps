@@ -1,17 +1,16 @@
-export PS1='\u@\w$ '
+#!/bin/sh
 
-function iterm_title {
-    if [ "$1" ]
-    then
-        unset PROMPT_COMMAND
-        echo -ne "\033]0;${*}\007"
-    else
-        export PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
-    fi
+function bash_iterm_title {
+  if [ "$1" ]
+  then
+    unset PROMPT_COMMAND
+    echo -ne "\033]0;${*}\007"
+  else
+    export PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
+  fi
 }
-iterm_title
 
-function prompt {
+function bash_prompt {
   local BLACK="\[\033[0;30m\]"
   local BLACKBOLD="\[\033[1;30m\]"
   local RED="\[\033[0;31m\]"
@@ -34,6 +33,18 @@ function prompt {
   export PS2="$ $RESETCOLOR"
 }
 
-prompt
+function zsh_prompt {
+  autoload -U colors && colors
+  autoload -Uz vcs_info
+  precmd { vcs_info }
+  export PS1=""
+}
 
+if [[ $0 == *"zsh"* ]]; then
+  #zsh_prompt
+  echo "zsh"
+else
+  bash_iterm_title
+  bash_prompt
+fi
 

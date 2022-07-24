@@ -1,6 +1,6 @@
 [user]
-  name = witran
-  email = witrandev@gmail.com
+	name = William
+	email = witrandev@gmail.com
 
 [url "git@github.com:"]
   insteadOf = https://github.com/
@@ -33,3 +33,8 @@
 	trustExitCode = true
 [push]
 	default = matching
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f

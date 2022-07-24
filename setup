@@ -5,3 +5,6 @@ ln -sf $(pwd)/aliases $HOME/.aliases
 ln -sf $(pwd)/ps $HOME/.ps
 ln -sf $(pwd)/gitconfig $HOME/.gitconfig
 
+source_cmd="source ~/.aliases && source ~/.ps"
+bash_file_path="$HOME/.bashrc"
+grep -qxF "$source_cmd" $bash_file_path || echo $source_cmd >> $bash_file_path

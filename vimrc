@@ -5,26 +5,26 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'fatih/vim-go', { 'do': 'vim +GoInstallBinaries +qall' }
+" Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" Plug 'fatih/vim-go', { 'do': 'vim +GoInstallBinaries +qall' }
+" Plug 'hdima/python-syntax'
+" Plug 'elixir-editors/vim-elixir'
+" Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+" Plug 'mhartington/oceanic-next'
+" Plug 'jelera/vim-javascript-syntax'
+" Plug 'prettier/vim-prettier', {
+"   \ 'do': 'npm install',
+"  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] }
 Plug 'scrooloose/syntastic'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'joshdick/onedark.vim'
-Plug 'flazz/vim-colorschemes'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'Townk/vim-autoclose'
-Plug 'mhartington/oceanic-next'
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'npm install',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] }
+Plug 'joshdick/onedark.vim'
+Plug 'flazz/vim-colorschemes'
 Plug 'tomasiser/vim-code-dark'
 Plug 'chriskempson/base16-vim'
-Plug 'jelera/vim-javascript-syntax'
-Plug 'hdima/python-syntax'
 Plug 'Yggdroot/indentLine'
-Plug 'elixir-editors/vim-elixir'
 call plug#end()
 
 map <up> <nop>

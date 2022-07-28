@@ -259,7 +259,7 @@ set -g history-limit 10000
 set -g mouse on
 
 # force Vi mode
-#   really you should export VISUAL or EDITOR environment variable, see manual
+# really you should export VISUAL or EDITOR environment variable, see manual
 set -g status-keys vi
 set -g mode-keys vi
 

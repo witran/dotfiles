@@ -256,7 +256,7 @@ tmux_conf_copy_to_os_clipboard=false
 set -g history-limit 10000
 
 # start with mouse mode enabled
-#set -g mouse on
+set -g mouse on
 
 # force Vi mode
 #   really you should export VISUAL or EDITOR environment variable, see manual
@@ -282,9 +282,9 @@ set -g pane-active-border-fg brightred
 set -g pane-border-bg colour235
 set -g pane-border-fg colour238
 
-# split window 
+# split window
 bind | split-window -h
-bind \ split-window -v
+bind \\ split-window -v
 
 # switch panes using Alt-motion without prefix
 bind -n M-h select-pane -L

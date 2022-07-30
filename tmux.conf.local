@@ -284,7 +284,7 @@ set -g pane-border-fg colour238
 
 # split window
 bind | split-window -h
-bind \\ split-window -v
+bind \ split-window -v
 
 # switch panes using Alt-motion without prefix
 bind -n M-h select-pane -L

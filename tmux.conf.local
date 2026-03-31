@@ -276,15 +276,13 @@ set -g status-position top
 # split panes using | and -
 bind - split-window -v
 
-# panes
-set -g pane-border-fg black
-set -g pane-active-border-fg brightred
-set -g pane-border-bg colour235
-set -g pane-border-fg colour238
+# panes (tmux 3.x style syntax)
+set -g pane-border-style "fg=colour238,bg=colour235"
+set -g pane-active-border-style "fg=brightred"
 
 # split window
 bind | split-window -h
-bind \ split-window -v
+bind \\ split-window -v
 
 # switch panes using Alt-motion without prefix
 bind -n M-h select-pane -L

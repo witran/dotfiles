@@ -273,6 +273,17 @@ bind C-a send-prefix
 # move status line to top
 set -g status-position top
 
+# window status (inactive tabs): light gray on dark gray
+setw -g window-status-style "fg=#8a8a8a,bg=#080808,none"
+setw -g window-status-format ' #I #W '
+
+# window status (active tab): black on light blue, bold
+setw -g window-status-current-style "fg=#000000,bg=#00afff,bold"
+setw -g window-status-current-format ' #I #W '
+
+# last active window: light blue text
+setw -g window-status-last-style "fg=#00afff,bg=#080808,none"
+
 # split panes using | and -
 bind - split-window -v
 

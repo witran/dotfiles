@@ -301,12 +301,12 @@ bind -n M-l select-pane -R
 bind -n M-k select-pane -U
 bind -n M-j select-pane -D
 
-# zoom pane using Alt-z or Ctrl-z without prefix
+# zoom pane using Alt-z or Ctrl-Space without prefix
 bind -n M-z resize-pane -Z
-bind -n C-z resize-pane -Z
+bind -n C-Space resize-pane -Z
 
-# cycle windows using Ctrl-Space without prefix
-bind -n C-Space next-window
+# cycle windows using Ctrl-n without prefix
+bind -n C-n next-window
 
 # switch windows using Ctrl-Left/Right without prefix
 bind -n C-Left previous-window

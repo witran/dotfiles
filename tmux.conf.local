@@ -165,7 +165,7 @@ battery_vbar=false
 #tmux_conf_theme_status_left=' ❐ #S | ↑#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} '
 #tmux_conf_theme_status_right='#{prefix}#{pairing} #{?battery_status, #{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} '
 tmux_conf_theme_status_left=''
-tmux_conf_theme_status_right='#{prefix}#{pairing} #{username}#{root} | #{hostname} '
+tmux_conf_theme_status_right='#{prefix} '
 
 # status left style
 tmux_conf_theme_status_left_fg='#000000,#e4e4e4,#e4e4e4'  # black, white , white
@@ -328,6 +328,9 @@ bind -n M-9 select-window -t 9
 bind -T copy-mode M-w send -X copy-pipe "reattach-to-user-namespace pbcopy" \; display-message "copied to system clipboard"
 bind -T copy-mode-vi y send -X copy-pipe "reattach-to-user-namespace pbcopy" \; display-message "copied to system clipboard"
 if -b 'command -v xclip > /dev/null 2>&1' 'bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -i -f -selection primary | xclip -i -selection clipboard"'
+
+# clear right status bar (remove date, time, title)
+set -g status-right ''
 
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-resurrect'

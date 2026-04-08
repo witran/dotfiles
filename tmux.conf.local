@@ -301,6 +301,29 @@ bind -n M-l select-pane -R
 bind -n M-k select-pane -U
 bind -n M-j select-pane -D
 
+# zoom pane using Alt-z or Ctrl-z without prefix
+bind -n M-z resize-pane -Z
+bind -n C-z resize-pane -Z
+
+# cycle windows using Ctrl-Space without prefix
+bind -n C-Space next-window
+
+# switch windows using Ctrl-Left/Right without prefix
+bind -n C-Left previous-window
+bind -n C-Right next-window
+
+# switch windows using Alt-number without prefix
+bind -n M-0 select-window -t 0
+bind -n M-1 select-window -t 1
+bind -n M-2 select-window -t 2
+bind -n M-3 select-window -t 3
+bind -n M-4 select-window -t 4
+bind -n M-5 select-window -t 5
+bind -n M-6 select-window -t 6
+bind -n M-7 select-window -t 7
+bind -n M-8 select-window -t 8
+bind -n M-9 select-window -t 9
+
 # copy config
 bind -T copy-mode M-w send -X copy-pipe "reattach-to-user-namespace pbcopy" \; display-message "copied to system clipboard"
 bind -T copy-mode-vi y send -X copy-pipe "reattach-to-user-namespace pbcopy" \; display-message "copied to system clipboard"

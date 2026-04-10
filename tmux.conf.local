@@ -281,8 +281,8 @@ setw -g window-status-format ' #I #W '
 setw -g window-status-current-style "fg=#000000,bg=#00afff,bold"
 setw -g window-status-current-format ' #I #W '
 
-# last active window: light blue text
-setw -g window-status-last-style "fg=#00afff,bg=#080808,none"
+# last active window: same as inactive
+setw -g window-status-last-style "fg=#8a8a8a,bg=#080808,none"
 
 # split panes using | and -
 bind - split-window -v

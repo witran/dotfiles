@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(tmux source-file:*)",
-      "Bash(tmux show-window-option:*)"
+      "Bash(tmux show-window-option:*)",
+      "Skill(update-config)"
     ]
   }
 }

@@ -1,0 +1,37 @@
+{
+  "model": "opus",
+  "effortLevel": "high",
+  "skipAutoPermissionPrompt": true,
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$TMUX_PANE\" ] && tmux set -w -t \"$TMUX_PANE\" @claude_state 'working' 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$TMUX_PANE\" ] && tmux set -w -t \"$TMUX_PANE\" @claude_state 'waiting' 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$TMUX_PANE\" ] && tmux set -w -t \"$TMUX_PANE\" @claude_state 'waiting' 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

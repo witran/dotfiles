@@ -1,7 +1,58 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(pnpm init:*)",
+      "Bash(pnpm add:*)",
+      "Bash(sed:*)",
+      "Bash(pnpm tsc:*)",
+      "Bash(npx tsc:*)",
+      "Bash(pnpm build:engine:*)",
+      "Bash(npx tsx:*)",
+      "Bash(pnpm test:quickjs:*)",
+      "Bash(bun test:*)",
+      "WebSearch",
+      "Bash(find /Users/witran/code/labs/glow/geo-script -name \"*.test.ts\" -o -name \"*.test.js\" -o -name \"*.spec.ts\" 2>/dev/null | head -20)",
+      "Bash(grep -r \"vitest\\\\|test\\\\|describe\\\\|it\\(\" /Users/witran/code/labs/glow/geo-script/*.config.* 2>/dev/null)",
+      "Bash(npx vitest:*)",
+      "Bash(pnpm install:*)",
+      "WebFetch(domain:web.evanchen.cc)",
+      "WebFetch(domain:geogebra.github.io)",
+      "WebFetch(domain:docs.tkz-euclide.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(npm ls:*)",
+      "Bash(pnpm build:*)",
+      "Bash(pnpm test:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(find /Users/witran/code/labs/glow/geo-script/examples -type f -name *.js)",
+      "Bash(find /Users/witran/code/labs/glow/geo-script -name *.html -o -name *.test.ts)",
+      "Bash(ls:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(pnpm vitest:*)",
+      "Bash(npx playwright:*)",
+      "Bash(pnpm:*)",
+      "Bash(npx vite:*)",
+      "Bash(grep -r \"daisyui\\\\|tailwind\" /home/will/code/geo-script --include=*.json --include=*.config.*)",
+      "Bash(grep:*)",
+      "Bash(find /home/will/code/geo-script -name tailwind.config.* -o -name tailwind.config.js -o -name postcss.config.js)",
+      "WebFetch(domain:tikz.dev)",
+      "WebFetch(domain:developers.cloudflare.com)",
+      "Bash(git worktree:*)",
+      "Bash(git checkout:*)",
+      "Bash(git rebase:*)",
+      "Bash(git log:*)",
+      "Bash(find *)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:link.springer.com)",
+      "WebFetch(domain:download.cabri.com)",
+      "Bash(mkdir -p /tmp/cabri-manual)",
+      "Bash(pdftotext -layout /home/will/.claude/projects/-home-will-code-gs-2/107f78d2-13bb-48fe-a438-94a2de5cf539/tool-results/webfetch-1776430896579-9yc8e5.pdf /tmp/cabri-manual/manual.txt)",
+      "WebFetch(domain:wiki.geogebra.org)",
+      "Bash(tee /tmp/final.out)"
+    ],
+    "defaultMode": "auto"
+  },
   "model": "opus",
-  "effortLevel": "high",
-  "skipAutoPermissionPrompt": true,
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -33,5 +84,7 @@
         ]
       }
     ]
-  }
+  },
+  "effortLevel": "high",
+  "skipAutoPermissionPrompt": true
 }

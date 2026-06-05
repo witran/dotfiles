@@ -85,6 +85,13 @@
       }
     ]
   },
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true
+  },
   "effortLevel": "high",
+  "autoUpdatesChannel": "latest",
+  "verbose": true,
+  "remoteControlAtStartup": false,
+  "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true
 }

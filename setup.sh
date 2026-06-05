@@ -6,6 +6,8 @@ ln -sf $(pwd)/ps.sh $HOME/.ps.sh
 ln -sf $(pwd)/gitconfig $HOME/.gitconfig
 mkdir -p $HOME/.claude
 ln -sf $(pwd)/claude-settings.json $HOME/.claude/settings.json
+mkdir -p $HOME/.config/ghostty
+ln -sf $(pwd)/ghostty.config $HOME/.config/ghostty/config
 
 source_cmd="source ~/.aliases.sh && source ~/.ps.sh"
 bash_file_path="$HOME/.bashrc"

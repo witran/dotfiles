@@ -1,0 +1,7 @@
+# Tailscale HTTPS cert auto-renewal.
+# Installed to /etc/cron.d/tailscale-cert-renew by setup.sh.
+# Runs weekly as root; tailscale cert no-ops until the cert is near expiry.
+# cron.d entries need an explicit user field (root) and a sane PATH.
+SHELL=/bin/bash
+PATH=/usr/sbin:/usr/bin:/sbin:/bin
+0 4 * * 0 root /home/will/code/dotfiles/setup-tailscale-https.sh will

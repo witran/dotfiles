@@ -52,7 +52,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "opus[1m]",
+  "model": "fable",
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -90,6 +90,8 @@
   },
   "effortLevel": "xhigh",
   "autoUpdatesChannel": "latest",
+  "tui": "fullscreen",
+  "skipWorkflowUsageWarning": false,
   "verbose": true,
   "remoteControlAtStartup": false,
   "agentPushNotifEnabled": true,

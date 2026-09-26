@@ -36,13 +36,12 @@ function bash_prompt {
 function zsh_prompt {
   autoload -U colors && colors
   autoload -Uz vcs_info
-  precmd { vcs_info }
+  precmd() { vcs_info; }
   export PS1=""
 }
 
-if [[ $0 == *"zsh"* ]]; then
-  #zsh_prompt
-  echo "zsh"
+if [ -n "$ZSH_VERSION" ]; then
+  : #zsh_prompt
 else
   bash_iterm_title
   bash_prompt

@@ -4,6 +4,20 @@
 set -euo pipefail
 VERSION=3.7c
 
+# tmux.conf loads plugins through TPM; without it `run -b tpm` exits 127.
+install_tpm() {
+  local dir="$HOME/.tmux/plugins/tpm"
+  if [ -d "$dir/.git" ]; then
+    echo "tpm is already installed."
+  else
+    git clone https://github.com/tmux-plugins/tpm "$dir"
+  fi
+  # install_plugins needs a running server; otherwise press prefix + I in tmux.
+  if tmux list-sessions >/dev/null 2>&1; then
+    "$dir/bin/install_plugins"
+  fi
+}
+
 # True if version $1 >= version $2.
 version_ge() {
   [ "$(printf '%s\n%s\n' "$1" "$2" | sort -V | head -1)" = "$2" ]
@@ -13,6 +27,7 @@ if command -v tmux >/dev/null 2>&1; then
   INSTALLED=$(tmux -V | awk '{print $2}')
   if version_ge "$INSTALLED" "$VERSION"; then
     echo "tmux $INSTALLED is already installed (>= $VERSION)."
+    install_tpm
     exit 0
   fi
 fi
@@ -47,3 +62,4 @@ make
 sudo make install
 hash -r
 tmux -V
+install_tpm

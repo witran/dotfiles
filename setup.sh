@@ -24,6 +24,12 @@ link gitconfig            "$HOME/.gitconfig"
 link claude-settings.json "$HOME/.claude/settings.json"
 link ghostty.config       "$HOME/.config/ghostty/config"
 
+# Install/upgrade tmux and vim. Each script skips when already up to date;
+# a failure (e.g. no Homebrew on macOS) is reported but doesn't stop setup.
+for script in get-tmux.sh get-vim.sh; do
+  "$DOTFILES/$script" || echo "Warning: $script failed; continuing." >&2
+done
+
 # Install Tailscale HTTPS cert auto-renewal cron job (Linux only; needs root).
 # Installed name has no ".cron" extension — cron ignores files containing a dot.
 if [ "$(uname -s)" = "Linux" ] && [ -d /etc/cron.d ] && command -v sudo >/dev/null 2>&1; then

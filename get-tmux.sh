@@ -1,7 +1,21 @@
 #!/usr/bin/env bash
 # Install tmux $VERSION from source. macOS: build against Homebrew deps. Linux (Debian/Ubuntu): apt deps.
+# Idempotent: skips when an up-to-date tmux is already installed.
 set -euo pipefail
 VERSION=3.7c
+
+# True if version $1 >= version $2.
+version_ge() {
+  [ "$(printf '%s\n%s\n' "$1" "$2" | sort -V | head -1)" = "$2" ]
+}
+
+if command -v tmux >/dev/null 2>&1; then
+  INSTALLED=$(tmux -V | awk '{print $2}')
+  if version_ge "$INSTALLED" "$VERSION"; then
+    echo "tmux $INSTALLED is already installed (>= $VERSION)."
+    exit 0
+  fi
+fi
 
 case "$(uname -s)" in
 Darwin)
@@ -31,4 +45,5 @@ cd "tmux-${VERSION}"
 ./configure ${CONFIGURE_FLAGS}
 make
 sudo make install
+hash -r
 tmux -V

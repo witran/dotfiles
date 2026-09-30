@@ -13,6 +13,12 @@
 # Each project's dev-server config picks the cert up from ~/.tailscale-certs
 # (see e.g. family-tree's vite.config.ts → tailscaleHttps()).
 set -euo pipefail
+
+if [ "$(uname -s)" != "Linux" ]; then
+  echo "setup-tailscale-https.sh only supports Linux for now." >&2
+  exit 1
+fi
+
 export PATH="/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
 
 TARGET_USER="${1:-$(id -un)}"

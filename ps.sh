@@ -34,14 +34,14 @@ function bash_prompt {
 }
 
 function zsh_prompt {
-  autoload -U colors && colors
-  autoload -Uz vcs_info
-  precmd() { vcs_info; }
-  export PS1=""
+  setopt PROMPT_SUBST
+  PS1='%F{red}%n %F{green}%~ %f%B%F{blue}$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%f%b
+%F{white}> %f'
+  PS2='$ '
 }
 
 if [ -n "$ZSH_VERSION" ]; then
-  : #zsh_prompt
+  zsh_prompt
 else
   bash_iterm_title
   bash_prompt

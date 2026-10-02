@@ -23,6 +23,8 @@ link ps.sh                "$HOME/.ps.sh"
 link gitconfig            "$HOME/.gitconfig"
 link claude-settings.json "$HOME/.claude/settings.json"
 link ghostty.config       "$HOME/.config/ghostty/config"
+link zed-settings.json    "$HOME/.config/zed/settings.json"
+link zed-keymap.json      "$HOME/.config/zed/keymap.json"
 
 # Install/upgrade tmux and vim. Each script skips when already up to date;
 # a failure (e.g. no Homebrew on macOS) is reported but doesn't stop setup.

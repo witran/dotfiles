@@ -1,0 +1,127 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+	"autosave": {
+		"after_delay": {
+			"milliseconds": 1000
+		}
+	},
+	"agent_servers": {
+		"claude-acp": {
+			"type": "registry"
+		}
+	},
+	"project_panel": {
+		"bold_folder_labels": false,
+		"dock": "left"
+	},
+	"outline_panel": {
+		"button": false,
+		"dock": "right"
+	},
+	"collaboration_panel": {
+		"button": false,
+		"dock": "right"
+	},
+	"git_panel": {
+		"button": false,
+		"dock": "right"
+	},
+	"icon_theme": {
+		"mode": "dark",
+		"light": "Zed (Default)",
+		"dark": "Zed (Default)"
+	},
+	"show_edit_predictions": false,
+	"agent": {
+		"button": false,
+		"dock": "right",
+		"default_model": {
+			"provider": "copilot_chat",
+			"model": "gemini-2.5-pro"
+		}
+	},
+	"ssh_connections": [
+		{
+			"host": "ctb_glow",
+			"username": "will",
+			"args": [],
+			"projects": []
+		},
+		{
+			"host": "devbox",
+			"username": "will",
+			"args": [],
+			"projects": [
+				{
+					"paths": ["/home/will"]
+				},
+				{
+					"paths": ["/home/will/code/geo-script"]
+				}
+			]
+		},
+		{
+			"host": "devbox",
+			"username": "will",
+			"args": [],
+			"projects": []
+		},
+		{
+			"host": "devbox",
+			"username": "will",
+			"args": [],
+			"projects": []
+		}
+	],
+	"vim_mode": true,
+	"ui_font_size": 16,
+	"buffer_font_size": 16,
+	"theme": {
+		"mode": "dark",
+		"light": "One Light",
+		"dark": "Dracula"
+	},
+	"git": {
+		"inline_blame": {
+			"enabled": false
+		}
+	},
+	"formatter": {
+		"language_server": {
+			"name": "biome"
+		}
+	},
+	"languages": {
+		"TypeScript": {
+			"format_on_save": "on",
+			"code_actions_on_format": {
+				"source.organizeImports": true,
+				// "source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"TSX": {
+			"code_actions_on_format": {
+				"source.organizeImports": true
+			}
+		},
+		"Plain Text": {
+			"tab_size": 4,
+			"hard_tabs": false
+		}
+	},
+	"experimental.theme_overrides": {},
+	"show_whitespaces": "all",
+	"soft_wrap": "editor_width",
+	"terminal": {
+		"show_count_badge": false,
+		"dock": "right"
+	}
+}

@@ -33,6 +33,14 @@ step "~/.ssh/config"
 touch "$CONFIG" && chmod 600 "$CONFIG"
 if grep -qF "github_ed25519" "$CONFIG"; then
   echo "github.com block already present"
+  # Upgrade blocks written before AddKeysToAgent was added: without it, ssh
+  # prompts for the passphrase on every git call until a manual ssh-add.
+  if ! grep -qF "AddKeysToAgent" "$CONFIG"; then
+    TMP="$(mktemp)"
+    awk '{ print } /IdentityFile ~\/\.ssh\/github_ed25519/ { print "  AddKeysToAgent yes" }' "$CONFIG" > "$TMP"
+    mv "$TMP" "$CONFIG" && chmod 600 "$CONFIG"
+    echo "added AddKeysToAgent yes"
+  fi
 else
   TMP="$(mktemp)"
   cat > "$TMP" <<'EOF'
@@ -41,6 +49,7 @@ Host github.com
   IdentityAgent "~/.ssh/agent.sock"
   IdentityFile ~/.ssh/github_ed25519
   IdentitiesOnly yes
+  AddKeysToAgent yes
 
 EOF
   cat "$CONFIG" >> "$TMP"
@@ -88,5 +97,5 @@ echo "Public key — add it at https://github.com/settings/keys :"
 echo
 cat "$KEY.pub"
 echo
-echo "After every reboot: ssh-add ~/.ssh/github_ed25519 (any one shell unlocks all)"
+echo "After every reboot, the first git/ssh call to github.com asks for the passphrase once"
 echo "Test with: ssh -T git@github.com"

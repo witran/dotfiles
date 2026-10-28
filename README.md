@@ -3,17 +3,13 @@
 ## Fresh Mac setup
 
 Every device gets its own SSH key. 1Password keeps a copy of each key, so you can move key files around and restore one if it's lost.
-The commands below use the vault `Private`. Replace it with your vault's name (often `Personal`).
+Steps marked **Manual** are done by hand in the 1Password app; everything else is a command.
 
 ### 0. Prerequisites (new Mac)
 
 - [Homebrew](https://brew.sh) (also installs the Xcode command line tools, which provide git)
 - [Tailscale](https://tailscale.com/download/mac), signed in
-- 1Password app, signed in, plus its CLI:
-  ```sh
-  brew install 1password-cli
-  ```
-  Then in the 1Password app: Settings → Developer → turn on **Integrate with 1Password CLI**.
+- 1Password app, signed in
 
 ### 1. Clone and link configs (new Mac)
 
@@ -25,18 +21,22 @@ cd ~/code/dotfiles
 
 ### 2. GitHub key: generate in 1Password → export to this Mac
 
-```sh
-ITEM="GitHub SSH - $(scutil --get LocalHostName)"
-op item create --vault=Private --category=ssh --title="$ITEM" --ssh-generate-key=ed25519
+**Manual (1Password app):**
+1. New Item → SSH Key → Add Private Key → Generate New Key → Ed25519.
+   Title it after this Mac, e.g. `GitHub SSH - <mac name>`, and save.
+2. Open the item and export the private key in **OpenSSH** format. Save it as `~/Downloads/github_ed25519`.
 
+Then move it into place and set a passphrase on the local copy:
+
+```sh
 mkdir -m 700 -p ~/.ssh
-(umask 077
- op read "op://Private/$ITEM/private key?ssh-format=openssh" > ~/.ssh/github_ed25519
- op read "op://Private/$ITEM/public key" > ~/.ssh/github_ed25519.pub)
-ssh-keygen -p -f ~/.ssh/github_ed25519   # set a passphrase on the local copy
+mv ~/Downloads/github_ed25519 ~/.ssh/github_ed25519
+chmod 600 ~/.ssh/github_ed25519
+ssh-keygen -p -f ~/.ssh/github_ed25519                              # set a passphrase
+ssh-keygen -y -f ~/.ssh/github_ed25519 > ~/.ssh/github_ed25519.pub  # public key from the private key
 ```
 
-Add the public key at https://github.com/settings/keys (`pbcopy < ~/.ssh/github_ed25519.pub`), then:
+**Manual:** add the public key at https://github.com/settings/keys (`pbcopy < ~/.ssh/github_ed25519.pub`). Then:
 
 ```sh
 bash setup-github-ssh.sh    # uses the existing key; sets up ~/.ssh/config + the shared agent
@@ -44,19 +44,17 @@ ssh -T git@github.com       # check
 ```
 
 The key is exported to a file instead of being served by the 1Password SSH agent. That agent needs a GUI approval, so git would hang inside ssh/mosh sessions.
-If the file is ever lost, re-run the export lines above.
+If the file is ever lost, export it from 1Password again.
 
 ### 3. Phone key: generate in 1Password → export to Termux on Android
 
 Once per phone. Skip it on later Macs: the phone already has its key.
 
-On the Mac:
+**Manual (1Password app, on any device):** New Item → SSH Key → Add Private Key → Generate New Key → Ed25519. Title it `Phone SSH - <phone name>` and save.
 
-```sh
-op item create --vault=Private --category=ssh --title="Phone SSH - <phone name>" --ssh-generate-key=ed25519
-```
+**Manual (phone):** install Tailscale and sign in. In the 1Password Android app, open the item and export the private key (to a file or to the clipboard; pick OpenSSH format if asked).
 
-On the phone, install Tailscale and sign in. In the 1Password Android app, open the item and export the private key (to a file or to the clipboard; pick OpenSSH format if asked). Then in Termux:
+Then in Termux:
 
 ```sh
 pkg install openssh mosh
@@ -74,10 +72,10 @@ If the key file is ever lost, export it from 1Password again.
 
 ### 4. Remote login from the phone (new Mac)
 
-Pass the phone's public key straight from 1Password:
+**Manual (1Password app on the Mac):** open `Phone SSH - <phone name>` and copy its **public key**. Then:
 
 ```sh
-bash setup-remote-dev.sh "$(op read 'op://Private/Phone SSH - <phone name>/public key')"
+bash setup-remote-dev.sh "$(pbpaste)"
 ```
 
 This turns on sshd and mosh, makes SSH key-only, and prints the Tailscale IP. Test from Termux: `mosh <user>@<tailscale-ip>`.

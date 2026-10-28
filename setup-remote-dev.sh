@@ -88,6 +88,9 @@ PasswordAuthentication no
 KbdInteractiveAuthentication no
 ChallengeResponseAuthentication no
 EOF
+  # Host keys are normally generated on the first incoming connection; on a
+  # fresh Mac they don't exist yet and `sshd -t` fails with "no hostkeys available".
+  sudo ssh-keygen -A
   sudo /usr/sbin/sshd -t
   echo "password auth over SSH disabled (macOS spawns sshd per connection — new connections pick it up immediately)"
 else

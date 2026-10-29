@@ -48,35 +48,29 @@
 		}
 	},
 	"ssh_connections": [
-  {
-   "host": "ctb_glow",
-   "username": "will",
-   "args": [],
-   "projects": []
-  },
-  {
-   "host": "devbox",
-   "username": "will",
-   "args": [],
-   "projects": [
-    {
-     "paths": [
-      "/home/will"
-     ]
-    },
-    {
-     "paths": [
-      "/home/will/code/family-tree/./"
-     ]
-    },
-    {
-     "paths": [
-      "/home/will/code/geo-script"
-     ]
-    }
-   ]
-  }
- ],
+		{
+			"host": "ctb_glow",
+			"username": "will",
+			"args": [],
+			"projects": []
+		},
+		{
+			"host": "devbox",
+			"username": "will",
+			"args": [],
+			"projects": [
+				{
+					"paths": ["/home/will"]
+				},
+				{
+					"paths": ["/home/will/code/family-tree/./"]
+				},
+				{
+					"paths": ["/home/will/code/geo-script"]
+				}
+			]
+		}
+	],
 	"vim_mode": true,
 	"ui_font_size": 16,
 	"buffer_font_size": 16,
@@ -109,6 +103,14 @@
 			}
 		},
 		"Plain Text": {
+			"tab_size": 4,
+			"hard_tabs": true
+		},
+		"JSON": {
+			"tab_size": 4,
+			"hard_tabs": true
+		},
+		"JSONC": {
 			"tab_size": 4,
 			"hard_tabs": true
 		}

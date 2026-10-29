@@ -48,45 +48,54 @@
 		}
 	},
 	"ssh_connections": [
-		{
-			"host": "ctb_glow",
-			"username": "will",
-			"args": [],
-			"projects": []
-		},
-		{
-			"host": "devbox",
-			"username": "will",
-			"args": [],
-			"projects": [
-				{
-					"paths": ["/home/will"]
-				},
-				{
-					"paths": ["/home/will/code/geo-script"]
-				}
-			]
-		},
-		{
-			"host": "devbox",
-			"username": "will",
-			"args": [],
-			"projects": []
-		},
-		{
-			"host": "devbox",
-			"username": "will",
-			"args": [],
-			"projects": []
-		}
-	],
+  {
+   "host": "ctb_glow",
+   "username": "will",
+   "args": [],
+   "projects": []
+  },
+  {
+   "host": "devbox",
+   "username": "will",
+   "args": [],
+   "projects": [
+    {
+     "paths": [
+      "/home/will"
+     ]
+    },
+    {
+     "paths": [
+      "/home/will/code/family-tree/./"
+     ]
+    },
+    {
+     "paths": [
+      "/home/will/code/geo-script"
+     ]
+    }
+   ]
+  },
+  {
+   "host": "devbox",
+   "username": "will",
+   "args": [],
+   "projects": []
+  },
+  {
+   "host": "devbox",
+   "username": "will",
+   "args": [],
+   "projects": []
+  }
+ ],
 	"vim_mode": true,
 	"ui_font_size": 16,
 	"buffer_font_size": 16,
 	"theme": {
 		"mode": "dark",
 		"light": "One Light",
-		"dark": "Dracula"
+		"dark": "One Dark"
 	},
 	"git": {
 		"inline_blame": {
@@ -103,7 +112,6 @@
 			"format_on_save": "on",
 			"code_actions_on_format": {
 				"source.organizeImports": true,
-				// "source.fixAll.biome": true,
 				"source.organizeImports.biome": true
 			}
 		},
@@ -114,7 +122,7 @@
 		},
 		"Plain Text": {
 			"tab_size": 4,
-			"hard_tabs": false
+			"hard_tabs": true
 		}
 	},
 	"experimental.theme_overrides": {},

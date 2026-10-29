@@ -4,8 +4,10 @@
 #
 #   bash setup-vps-user.sh
 #
-# Clones the dotfiles, runs setup.sh (configs, tmux, vim), and creates this box's
+# Clones the dotfiles, runs common/setup.sh (configs, tmux, vim), and creates this box's
 # GitHub SSH key with an ssh-agent that's shared by every shell and tmux pane.
+#
+# Self-contained (doesn't source common/lib.sh): it runs before the repo is cloned.
 #
 # Idempotent — safe to re-run.
 set -euo pipefail
@@ -35,7 +37,7 @@ else
   mkdir -p "$(dirname "$DOTFILES")"
   git clone https://github.com/witran/dotfiles "$DOTFILES"
 fi
-"$DOTFILES/setup.sh"   # also installs tmux (get-tmux.sh) and vim (get-vim.sh)
+"$DOTFILES/common/setup.sh"   # also installs tmux (get-tmux.sh) and vim (get-vim.sh)
 
 # --- 3. GitHub SSH key --------------------------------------------------------
 step "SSH key"

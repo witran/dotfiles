@@ -10,7 +10,7 @@
 # Idempotent — safe to re-run. Interactive: ssh-keygen asks for a passphrase.
 set -euo pipefail
 
-step() { printf '\n\033[1m== %s ==\033[0m\n' "$*"; }
+source "$(dirname "${BASH_SOURCE[0]}")/../common/lib.sh"
 
 KEY="$HOME/.ssh/github_ed25519"
 SOCK="$HOME/.ssh/agent.sock"

@@ -11,7 +11,7 @@
 set -euo pipefail
 
 PUBKEY="${1:-}"
-step() { printf '\n\033[1m== %s ==\033[0m\n' "$*"; }
+source "$(dirname "${BASH_SOURCE[0]}")/../common/lib.sh"
 
 # --- 1. Enable Remote Login (sshd) ------------------------------------------
 step "Remote Login (sshd)"

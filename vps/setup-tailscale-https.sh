@@ -8,7 +8,7 @@
 #   ./setup-tailscale-https.sh <user>    # for <user>, e.g. when run as root from cron
 #
 # Renewal is automated via /etc/cron.d/tailscale-cert-renew (installed by
-# setup.sh) which runs this weekly as root with the target user.
+# common/setup.sh) which runs this weekly as root with the target user.
 #
 # Each project's dev-server config picks the cert up from ~/.tailscale-certs
 # (see e.g. family-tree's vite.config.ts → tailscaleHttps()).

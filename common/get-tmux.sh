@@ -2,6 +2,7 @@
 # Install tmux $VERSION from source. macOS: build against Homebrew deps. Linux (Debian/Ubuntu): apt deps.
 # Idempotent: skips when an up-to-date tmux is already installed.
 set -euo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 VERSION=3.7c
 
 # tmux.conf loads plugins through TPM; without it `run -b tpm` exits 127.
@@ -16,11 +17,6 @@ install_tpm() {
   if tmux list-sessions >/dev/null 2>&1; then
     "$dir/bin/install_plugins"
   fi
-}
-
-# True if version $1 >= version $2.
-version_ge() {
-  [ "$(printf '%s\n%s\n' "$1" "$2" | sort -V | head -1)" = "$2" ]
 }
 
 if command -v tmux >/dev/null 2>&1; then

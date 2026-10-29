@@ -2,6 +2,7 @@
 # Install vim. macOS: Homebrew. Linux (Debian/Ubuntu): build $VERSION from source.
 # Idempotent: skips when an up-to-date vim is already installed.
 set -euo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 VERSION=9.2.1132
 
 if [ "$(uname -s)" = "Darwin" ]; then
@@ -18,11 +19,6 @@ if [ "$(uname -s)" = "Darwin" ]; then
   fi
   exit 0
 fi
-
-# True if version $1 >= version $2.
-version_ge() {
-  [ "$(printf '%s\n%s\n' "$1" "$2" | sort -V | head -1)" = "$2" ]
-}
 
 # Installed version as <major>.<minor>.<patch>, e.g. 9.2.1132.
 installed_version() {

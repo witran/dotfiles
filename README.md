@@ -1,5 +1,11 @@
 # dotfiles
 
+Config files (tmux, vim, zsh/bash aliases and prompt, git, Claude Code, Ghostty, Zed) live at the top level and are symlinked into `$HOME`. Scripts:
+
+- `common/`: `setup.sh` (symlinks + tmux/vim, both platforms), the tmux/vim installers, and `lib.sh` (shared helpers)
+- `mac/`: GitHub SSH key and phone remote-login setup
+- `vps/`: Debian/Ubuntu dev box setup, File Browser, Tailscale HTTPS certs
+
 ## Fresh Mac setup
 
 Every device gets its own SSH key. 1Password keeps a copy of each key, so you can move key files around and restore one if it's lost.
@@ -16,7 +22,7 @@ Steps marked **Manual** are done by hand in the 1Password app; everything else i
 ```sh
 git clone https://github.com/witran/dotfiles.git ~/code/dotfiles   # HTTPS: no SSH key yet
 cd ~/code/dotfiles
-./setup.sh                  # symlink configs, install tmux + vim, hook aliases/prompt into ~/.zshrc
+./common/setup.sh           # symlink configs, install tmux + vim, hook aliases/prompt into ~/.zshrc
 ```
 
 ### 2. GitHub key: generate in 1Password → export to this Mac
@@ -39,8 +45,8 @@ ssh-keygen -y -f ~/.ssh/github_ed25519 > ~/.ssh/github_ed25519.pub  # public key
 **Manual:** add the public key at https://github.com/settings/keys (`pbcopy < ~/.ssh/github_ed25519.pub`). Then:
 
 ```sh
-bash setup-github-ssh.sh    # uses the existing key; sets up ~/.ssh/config + the shared agent
-ssh -T git@github.com       # check
+bash mac/setup-github-ssh.sh   # uses the existing key; sets up ~/.ssh/config + the shared agent
+ssh -T git@github.com          # check
 ```
 
 The key is exported to a file instead of being served by the 1Password SSH agent. That agent needs a GUI approval, so git would hang inside ssh/mosh sessions.
@@ -75,11 +81,39 @@ If the key file is ever lost, export it from 1Password again.
 **Manual (1Password app on the Mac):** open `Phone SSH - <phone name>` and copy its **public key**. Then:
 
 ```sh
-bash setup-remote-dev.sh "$(pbpaste)"
+bash mac/setup-remote-dev.sh "$(pbpaste)"
 ```
 
 This turns on sshd and mosh, makes SSH key-only, and prints the Tailscale IP. Test from Termux: `mosh <user>@<tailscale-ip>`.
 
 Open a new terminal on the Mac afterwards so `~/.zshrc` changes take effect.
 
-`setup-tailscale-https.sh` is Linux-only and isn't needed on a Mac.
+## Fresh VPS dev box (Debian/Ubuntu)
+
+### 1. Harden the server (as root)
+
+```sh
+curl -fsSLO https://raw.githubusercontent.com/witran/dotfiles/master/vps/setup-vps-root.sh
+bash setup-vps-root.sh "<public key of the machine you'll ssh from>" [user]   # user defaults to will
+```
+
+**Manual:** open the login URL that `tailscale up` prints and approve the machine.
+Before closing the root session, check `ssh <user>@<tailscale-ip>` from another terminal.
+**Manual:** in the Tailscale admin console, disable key expiry for this machine (SSH is tailnet-only).
+
+### 2. Dotfiles and GitHub key (as the user)
+
+```sh
+curl -fsSLO https://raw.githubusercontent.com/witran/dotfiles/master/vps/setup-vps-user.sh
+bash setup-vps-user.sh      # clones to ~/code/dotfiles, runs common/setup.sh, creates the GitHub key
+```
+
+**Manual:** add the printed public key at https://github.com/settings/keys and save the key pair in 1Password.
+
+### 3. Optional extras
+
+```sh
+bash ~/code/dotfiles/vps/setup-filebrowser.sh   # File Browser on https://<machine>.<tailnet>.ts.net
+```
+
+`common/setup.sh` also installs a weekly cron job that renews Tailscale HTTPS certs for local dev servers (`vps/setup-tailscale-https.sh`).

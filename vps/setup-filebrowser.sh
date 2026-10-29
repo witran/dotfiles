@@ -23,7 +23,7 @@ CONF_DIR="$HOME/.config/filebrowser"
 DB="$CONF_DIR/filebrowser.db"
 UNIT="$CONF_DIR/filebrowser.service"
 BIN=/usr/local/bin/filebrowser
-step() { printf '\n\033[1m== %s ==\033[0m\n' "$*"; }
+source "$(dirname "${BASH_SOURCE[0]}")/../common/lib.sh"
 
 if [ "$(uname -s)" != "Linux" ]; then
   echo "setup-filebrowser.sh is Linux-only." >&2; exit 1

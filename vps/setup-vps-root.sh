@@ -8,6 +8,8 @@
 # login, adds swap, enables fail2ban and the firewall, and joins Tailscale. Once
 # Tailscale is up, ssh and mosh are reachable only over the tailnet.
 #
+# Self-contained (doesn't source common/lib.sh): it runs before the repo is cloned.
+#
 # Idempotent — safe to re-run. Before closing the root session, check from another
 # terminal that `ssh <user>@<tailscale-ip>` works.
 set -euo pipefail

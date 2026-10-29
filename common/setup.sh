@@ -2,7 +2,7 @@
 # Symlink dotfiles into $HOME. Safe to re-run; works on macOS and Linux.
 set -euo pipefail
 
-DOTFILES="$(cd "$(dirname "$0")" && pwd)"
+DOTFILES="$(cd "$(dirname "$0")/.." && pwd)"
 
 # Symlink $1 (relative to the repo) to $2. An existing regular file at the
 # target is moved aside to <target>.bak rather than silently overwritten.
@@ -29,14 +29,14 @@ link zed-keymap.json      "$HOME/.config/zed/keymap.json"
 # Install/upgrade tmux and vim. Each script skips when already up to date;
 # a failure (e.g. no Homebrew on macOS) is reported but doesn't stop setup.
 for script in get-tmux.sh get-vim.sh; do
-  "$DOTFILES/$script" || echo "Warning: $script failed; continuing." >&2
+  "$DOTFILES/common/$script" || echo "Warning: $script failed; continuing." >&2
 done
 
 # Install Tailscale HTTPS cert auto-renewal cron job (Linux only; needs root).
 # Installed name has no ".cron" extension — cron ignores files containing a dot.
 if [ "$(uname -s)" = "Linux" ] && [ -d /etc/cron.d ] && command -v sudo >/dev/null 2>&1; then
   sudo install -m 0644 -o root -g root \
-    "$DOTFILES/tailscale-cert-renew.cron" /etc/cron.d/tailscale-cert-renew \
+    "$DOTFILES/vps/tailscale-cert-renew.cron" /etc/cron.d/tailscale-cert-renew \
     && echo "Installed /etc/cron.d/tailscale-cert-renew (weekly cert renewal)."
 fi
 

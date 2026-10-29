@@ -75,18 +75,6 @@
      ]
     }
    ]
-  },
-  {
-   "host": "devbox",
-   "username": "will",
-   "args": [],
-   "projects": []
-  },
-  {
-   "host": "devbox",
-   "username": "will",
-   "args": [],
-   "projects": []
   }
  ],
 	"vim_mode": true,

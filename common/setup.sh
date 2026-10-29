@@ -3,6 +3,7 @@
 set -euo pipefail
 
 DOTFILES="$(cd "$(dirname "$0")/.." && pwd)"
+source "$DOTFILES/common/lib.sh"
 
 # Symlink $1 (relative to the repo) to $2. An existing regular file at the
 # target is moved aside to <target>.bak rather than silently overwritten.
@@ -26,9 +27,9 @@ link ghostty.config       "$HOME/.config/ghostty/config"
 link zed-settings.json    "$HOME/.config/zed/settings.json"
 link zed-keymap.json      "$HOME/.config/zed/keymap.json"
 
-# Install/upgrade tmux and vim. Each script skips when already up to date;
-# a failure (e.g. no Homebrew on macOS) is reported but doesn't stop setup.
-for script in get-tmux.sh get-vim.sh; do
+# Install/upgrade tmux, vim and Claude Code. Each script skips when already up
+# to date; a failure (e.g. no Homebrew on macOS) is reported but doesn't stop setup.
+for script in get-tmux.sh get-vim.sh get-claude.sh; do
   "$DOTFILES/common/$script" || echo "Warning: $script failed; continuing." >&2
 done
 
@@ -40,14 +41,6 @@ if [ "$(uname -s)" = "Linux" ] && [ -d /etc/cron.d ] && command -v sudo >/dev/nu
     && echo "Installed /etc/cron.d/tailscale-cert-renew (weekly cert renewal)."
 fi
 
-# Source aliases and prompt from the shell rc files that exist (zsh is the
-# macOS default; bash on most Linux boxes).
-source_cmd="source ~/.aliases.sh && source ~/.ps.sh"
-for rc in "$HOME/.zshrc" "$HOME/.bashrc"; do
-  case "$rc" in
-    */.zshrc)  [ "$(uname -s)" = "Darwin" ] || [ -e "$rc" ] || continue ;;
-    */.bashrc) [ "$(uname -s)" = "Linux" ]  || [ -e "$rc" ] || continue ;;
-  esac
-  touch "$rc"
-  grep -qxF "$source_cmd" "$rc" || echo "$source_cmd" >> "$rc"
-done
+# Source aliases and prompt from the shell rc files (zsh is the macOS default;
+# bash on most Linux boxes).
+add_to_shell_rcs "source ~/.aliases.sh && source ~/.ps.sh"

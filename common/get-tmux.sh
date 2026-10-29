@@ -30,10 +30,7 @@ fi
 
 case "$(uname -s)" in
 Darwin)
-  if ! command -v brew >/dev/null 2>&1; then
-    echo "Homebrew is required: https://brew.sh" >&2
-    exit 1
-  fi
+  require_brew
   # Homebrew's tmux formula owns /usr/local/bin/tmux, so remove it before installing over that path.
   brew install libevent ncurses utf8proc pkgconf bison automake
   brew uninstall tmux 2>/dev/null || true

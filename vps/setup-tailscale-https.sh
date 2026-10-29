@@ -13,6 +13,7 @@
 # Each project's dev-server config picks the cert up from ~/.tailscale-certs
 # (see e.g. family-tree's vite.config.ts → tailscaleHttps()).
 set -euo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/../common/lib.sh"
 
 if [ "$(uname -s)" != "Linux" ]; then
   echo "setup-tailscale-https.sh only supports Linux for now." >&2
@@ -35,7 +36,7 @@ if [ "$(id -u)" -ne 0 ]; then
   SUDO="sudo"
 fi
 
-HOST=$(tailscale status --json | python3 -c "import sys,json; print(json.load(sys.stdin)['Self']['DNSName'].rstrip('.'))")
+HOST=$(tailscale_dns_name)
 if [ -z "$HOST" ]; then
   echo "Error: could not detect Tailscale hostname. Is Tailscale running?" >&2
   exit 1

@@ -30,9 +30,7 @@ fi
 
 # --- 2. mosh -----------------------------------------------------------------
 step "mosh"
-if ! command -v brew >/dev/null 2>&1; then
-  echo "!! Homebrew not found — install it from https://brew.sh first"; exit 1
-fi
+require_brew
 BREW_PREFIX="$(brew --prefix)"
 MOSH_SERVER="$BREW_PREFIX/bin/mosh-server"
 if [ -x "$MOSH_SERVER" ]; then
@@ -112,15 +110,10 @@ fi
 
 # --- 7. Summary --------------------------------------------------------------
 step "Done"
-TS="$(command -v tailscale || true)"
-[ -z "$TS" ] && [ -x "/Applications/Tailscale.app/Contents/MacOS/Tailscale" ] \
-  && TS="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
-if [ -n "$TS" ]; then
+TS_IP=""
+if TS="$(tailscale_bin)"; then
   TS_IP="$("$TS" ip -4 2>/dev/null | head -1 || true)"
   echo "Tailscale IP: ${TS_IP:-<not connected — open the Tailscale app>}"
-else
-  echo "!! Tailscale not found — install it and sign in"
-  TS_IP=""
 fi
 echo
 echo "From your phone:"

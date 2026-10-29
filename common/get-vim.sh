@@ -6,10 +6,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 VERSION=9.2.1132
 
 if [ "$(uname -s)" = "Darwin" ]; then
-  if ! command -v brew >/dev/null 2>&1; then
-    echo "Homebrew is required: https://brew.sh" >&2
-    exit 1
-  fi
+  require_brew
   if ! brew list --versions vim >/dev/null; then
     brew install vim
   elif [ -n "$(brew outdated --quiet vim)" ]; then

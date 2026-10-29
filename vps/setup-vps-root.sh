@@ -5,8 +5,9 @@
 #   bash setup-vps-root.sh "ssh-ed25519 AAAA... laptop" [user]     # user defaults to will
 #
 # Creates a sudo user that logs in with that key, turns off root and password SSH
-# login, adds swap, enables fail2ban and the firewall, and joins Tailscale. Once
-# Tailscale is up, ssh and mosh are reachable only over the tailnet.
+# login, adds swap, enables fail2ban, automatic security updates and the firewall,
+# and joins Tailscale. Once Tailscale is up, ssh and mosh are reachable only over
+# the tailnet.
 #
 # Self-contained (doesn't source common/lib.sh): it runs before the repo is cloned.
 #
@@ -32,7 +33,7 @@ step "Packages"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get upgrade -y
-apt-get install -y curl git build-essential mosh net-tools ufw fail2ban python3-systemd
+apt-get install -y curl git build-essential mosh net-tools ufw fail2ban python3-systemd unattended-upgrades
 
 # --- 2. User ------------------------------------------------------------------
 step "User $USERNAME"
@@ -106,7 +107,17 @@ systemctl enable fail2ban >/dev/null 2>&1
 systemctl restart fail2ban
 echo "sshd jail on"
 
-# --- 6. Journal size ----------------------------------------------------------
+# --- 6. Automatic security updates -------------------------------------------
+# The same file `dpkg-reconfigure unattended-upgrades` writes. The default policy
+# (50unattended-upgrades) installs security updates only and never reboots.
+step "unattended-upgrades"
+cat > /etc/apt/apt.conf.d/20auto-upgrades <<'EOF'
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
+EOF
+echo "daily security updates on"
+
+# --- 7. Journal size ----------------------------------------------------------
 # Cap the journal so service logs (filebrowser etc.) can't fill the disk;
 # journald rotates within the cap on its own.
 step "Journal size"
@@ -114,7 +125,7 @@ mkdir -p /etc/systemd/journald.conf.d
 printf '[Journal]\nSystemMaxUse=500M\n' > /etc/systemd/journald.conf.d/size.conf
 systemctl restart systemd-journald
 
-# --- 7. Tailscale -------------------------------------------------------------
+# --- 8. Tailscale ------------------------------------------------------------
 step "Tailscale"
 if ! command -v tailscale >/dev/null 2>&1; then
   curl -fsSL https://tailscale.com/install.sh | sh
@@ -124,7 +135,7 @@ tailscale ip -4 >/dev/null 2>&1 || tailscale up
 TS_IP="$(tailscale ip -4 2>/dev/null | head -1 || true)"
 echo "Tailscale IP: ${TS_IP:-<not connected>}"
 
-# --- 8. Firewall --------------------------------------------------------------
+# --- 9. Firewall -------------------------------------------------------------
 # Everything on the tailnet is trusted (ssh, mosh, dev servers, filebrowser...);
 # nothing else gets in. Until Tailscale is up, ssh and mosh stay open publicly so
 # this run can't lock you out.
@@ -148,7 +159,7 @@ else
 fi
 ufw --force enable >/dev/null
 
-# --- 9. Summary ---------------------------------------------------------------
+# --- 10. Summary -------------------------------------------------------------
 step "Done"
 echo "From another terminal, before closing this one:"
 echo "  ssh $USERNAME@${TS_IP:-<server-ip>}"

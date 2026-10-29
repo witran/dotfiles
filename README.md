@@ -2,9 +2,9 @@
 
 Config files (tmux, vim, zsh/bash aliases and prompt, git, Claude Code, Ghostty, Zed) live at the top level and are symlinked into `$HOME`. Scripts:
 
-- `common/`: `setup.sh` (symlinks + tmux/vim, both platforms), the tmux/vim installers, and `lib.sh` (shared helpers)
-- `mac/`: GitHub SSH key and phone remote-login setup
-- `vps/`: Debian/Ubuntu dev box setup, File Browser, Tailscale HTTPS certs
+- `common/`: `setup.sh` (symlinks + tmux/vim/Claude Code), the installers it runs (`get-*.sh`), GitHub SSH key setup, File Browser, and `lib.sh` (shared helpers). Both platforms.
+- `mac/`: phone remote-login setup
+- `vps/`: Debian/Ubuntu dev box setup, Tailscale HTTPS certs
 
 ## Fresh Mac setup
 
@@ -22,7 +22,7 @@ Steps marked **Manual** are done by hand in the 1Password app; everything else i
 ```sh
 git clone https://github.com/witran/dotfiles.git ~/code/dotfiles   # HTTPS: no SSH key yet
 cd ~/code/dotfiles
-./common/setup.sh           # symlink configs, install tmux + vim, hook aliases/prompt into ~/.zshrc
+./common/setup.sh           # symlink configs, install tmux + vim + Claude Code, hook aliases/prompt into ~/.zshrc
 ```
 
 ### 2. GitHub key: generate in 1Password → export to this Mac
@@ -45,7 +45,7 @@ ssh-keygen -y -f ~/.ssh/github_ed25519 > ~/.ssh/github_ed25519.pub  # public key
 **Manual:** add the public key at https://github.com/settings/keys (`pbcopy < ~/.ssh/github_ed25519.pub`). Then:
 
 ```sh
-bash mac/setup-github-ssh.sh   # uses the existing key; sets up ~/.ssh/config + the shared agent
+bash common/setup-github-ssh.sh   # uses the existing key; sets up ~/.ssh/config + the shared agent, switches the remote to SSH
 ssh -T git@github.com          # check
 ```
 
@@ -88,6 +88,12 @@ This turns on sshd and mosh, makes SSH key-only, and prints the Tailscale IP. Te
 
 Open a new terminal on the Mac afterwards so `~/.zshrc` changes take effect.
 
+### 5. Optional extras
+
+```sh
+bash common/setup-filebrowser.sh   # File Browser on https://<machine>.<tailnet>.ts.net (launchd agent)
+```
+
 ## Fresh VPS dev box (Debian/Ubuntu)
 
 ### 1. Harden the server (as root)
@@ -105,15 +111,16 @@ Before closing the root session, check `ssh <user>@<tailscale-ip>` from another 
 
 ```sh
 curl -fsSLO https://raw.githubusercontent.com/witran/dotfiles/master/vps/setup-vps-user.sh
-bash setup-vps-user.sh      # clones to ~/code/dotfiles, runs common/setup.sh, creates the GitHub key
+bash setup-vps-user.sh      # clones to ~/code/dotfiles, runs common/setup.sh, then common/setup-github-ssh.sh
 ```
 
 **Manual:** add the printed public key at https://github.com/settings/keys and save the key pair in 1Password.
+Then re-run `bash ~/code/dotfiles/vps/setup-vps-user.sh` to switch the dotfiles remote to SSH.
 
 ### 3. Optional extras
 
 ```sh
-bash ~/code/dotfiles/vps/setup-filebrowser.sh   # File Browser on https://<machine>.<tailnet>.ts.net
+bash ~/code/dotfiles/common/setup-filebrowser.sh   # File Browser on https://<machine>.<tailnet>.ts.net (systemd unit)
 ```
 
 `common/setup.sh` also installs a weekly cron job that renews Tailscale HTTPS certs for local dev servers (`vps/setup-tailscale-https.sh`).

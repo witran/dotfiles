@@ -108,7 +108,40 @@ else
   echo "firewall is off — nothing to allow"
 fi
 
-# --- 7. Summary --------------------------------------------------------------
+# --- 7. Keep the Mac awake (caffeinate -d) -----------------------------------
+# A LaunchDaemon (not a LaunchAgent) so it also runs at the login window after
+# a reboot. Holding the display awake also keeps the system awake (powerd won't
+# idle-sleep while the display is on), on AC and battery. Closing the lid still
+# sleeps the Mac.
+step "Prevent sleep (caffeinate -d)"
+CAFF_LABEL=com.dotfiles.caffeinate
+CAFF_PLIST=/Library/LaunchDaemons/$CAFF_LABEL.plist
+sudo tee "$CAFF_PLIST" >/dev/null <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>$CAFF_LABEL</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/caffeinate</string>
+    <string>-d</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+</dict>
+</plist>
+EOF
+sudo chown root:wheel "$CAFF_PLIST"
+sudo chmod 644 "$CAFF_PLIST"
+sudo launchctl bootout "system/$CAFF_LABEL" 2>/dev/null || true
+sudo launchctl bootstrap system "$CAFF_PLIST"
+echo "caffeinate -d running as $CAFF_LABEL (undo: sudo launchctl bootout system/$CAFF_LABEL && sudo rm $CAFF_PLIST)"
+
+# --- 8. Summary --------------------------------------------------------------
 step "Done"
 TS_IP=""
 if TS="$(tailscale_bin)"; then

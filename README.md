@@ -133,3 +133,18 @@ bash ~/code/dotfiles/common/setup-filebrowser.sh   # File Browser on https://<ma
 ```
 
 `common/setup.sh` also installs a weekly cron job that renews Tailscale HTTPS certs for local dev servers (`vps/setup-tailscale-https.sh`).
+
+## Existing VPS (set up by an older version of these scripts)
+
+Everything is idempotent, so updating is a re-run:
+
+```sh
+cd ~/code/dotfiles && git pull
+./common/setup.sh                     # configs, tmux/vim/Claude Code upgrades, cert-renewal cron
+bash common/setup-filebrowser.sh      # if File Browser isn't set up yet
+```
+
+- `common/setup.sh` rebuilds tmux when `VERSION` in `common/get-tmux.sh` is bumped. The tmux server that's already running keeps the old version, and the new client may refuse to attach to it ("protocol version mismatch"). Save your work, then `tmux kill-server`.
+- `vps/setup-vps-user.sh` is only needed to move to the shared GitHub key setup. It renames an old `~/.ssh/id_ed25519` or `~/.ssh/gh_witran` key to `~/.ssh/github_ed25519` and removes the old agent snippet from `~/.bashrc` (backed up to `~/.bashrc.bak`). Run it in an interactive session: it asks for the key's passphrase.
+- Older root scripts left ssh (22/tcp) and mosh (60000:61000/udp) open to the internet. Check with `sudo ufw status`. To make them tailnet-only, re-run `vps/setup-vps-root.sh` as root, or run:
+  `sudo ufw allow in on tailscale0 && sudo ufw delete allow 22/tcp && sudo ufw delete allow 60000:61000/udp`

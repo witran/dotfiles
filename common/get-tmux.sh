@@ -3,7 +3,7 @@
 # Idempotent: skips when an up-to-date tmux is already installed.
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
-VERSION=3.7c
+VERSION=3.8
 
 # tmux.conf loads plugins through TPM; without it `run -b tpm` exits 127.
 install_tpm() {

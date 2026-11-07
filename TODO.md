@@ -4,7 +4,7 @@
 - [x] Disable Tailscale key expiry for the VPS in the admin console. SSH is tailnet-only, so an expired key locks you out (provider console is the only way back in). Manual step, documented in README → Fresh VPS dev box → 1.
 - [x] Enable `unattended-upgrades` in `vps/setup-vps-root.sh` for automatic security patches.
 - [x] Install Claude Code in `vps/setup-vps-user.sh` (via `common/get-claude.sh`, run by `common/setup.sh`).
-- [x] One GitHub key setup: `common/setup-github-ssh.sh` on both platforms, used by `vps/setup-vps-user.sh` (migrates the old `id_ed25519` key and agent snippet); switches the dotfiles remote to SSH once the key works.
+- [x] One GitHub key setup: `common/setup-github-ssh.sh` on both platforms, used by `vps/setup-vps-user.sh` (migrates an old `id_ed25519`/`gh_witran` key and agent snippet); switches the dotfiles remote to SSH once the key works.
 
 ## Mac
 - [x] Set up filebrowser on the Mac too: `common/setup-filebrowser.sh` (launchd agent on macOS, systemd on Linux).

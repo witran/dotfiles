@@ -54,7 +54,7 @@ else
   TMP="$(mktemp)"
   cat > "$TMP" <<'EOF'
 Host github.com
-  StrictHostKeyChecking no
+  StrictHostKeyChecking accept-new
   IdentityAgent "~/.ssh/agent.sock"
   IdentityFile ~/.ssh/github_ed25519
   IdentitiesOnly yes

@@ -40,20 +40,35 @@ fi
 "$DOTFILES/common/setup.sh"   # also installs tmux, vim and Claude Code (common/get-*.sh)
 
 # --- 3. GitHub SSH key --------------------------------------------------------
-# Earlier versions of this script made ~/.ssh/id_ed25519 with their own agent
-# snippet in ~/.bashrc. Rename that key to the name the shared script uses and
-# drop the old snippet, so there's one agent setup on every machine.
+# Earlier setups made the GitHub key under another name (~/.ssh/id_ed25519 from
+# older versions of this script, or a hand-made ~/.ssh/gh_witran) with their own
+# agent snippet in ~/.bashrc. Rename the key to the name the shared script uses
+# and drop the old snippet, so there's one agent setup on every machine.
+# Without this, setup-github-ssh.sh would generate a new key GitHub doesn't know
+# and point github.com at it, breaking git until the new key is added.
 step "Migrate old GitHub key"
-OLD_KEY="$HOME/.ssh/id_ed25519"
-if [ -f "$OLD_KEY" ] && [ ! -f "$HOME/.ssh/github_ed25519" ] && grep -qF " github" "$OLD_KEY.pub" 2>/dev/null; then
-  mv "$OLD_KEY" "$HOME/.ssh/github_ed25519"
-  mv "$OLD_KEY.pub" "$HOME/.ssh/github_ed25519.pub"
-  echo "renamed $OLD_KEY to ~/.ssh/github_ed25519"
+NEW_KEY="$HOME/.ssh/github_ed25519"
+if [ ! -f "$NEW_KEY" ]; then
+  if [ -f "$HOME/.ssh/id_ed25519" ] && grep -qF " github" "$HOME/.ssh/id_ed25519.pub" 2>/dev/null; then
+    OLD_KEY="$HOME/.ssh/id_ed25519"
+  elif [ -f "$HOME/.ssh/gh_witran" ]; then
+    OLD_KEY="$HOME/.ssh/gh_witran"   # no .pub: setup-github-ssh.sh derives it
+  else
+    OLD_KEY=""
+  fi
+  if [ -n "$OLD_KEY" ]; then
+    mv "$OLD_KEY" "$NEW_KEY"
+    [ -f "$OLD_KEY.pub" ] && mv "$OLD_KEY.pub" "$NEW_KEY.pub"
+    echo "renamed $OLD_KEY to $NEW_KEY"
+  fi
 fi
-if grep -qF "SSH Agent Configuration (setup-vps-user.sh)" ~/.bashrc; then
-  sed -i '/^# --- SSH Agent Configuration (setup-vps-user.sh) ---$/,/^# --- End SSH Agent Configuration ---$/d' ~/.bashrc
+# Header with or without the "(setup-vps-user.sh)" suffix, depending on the version.
+OLD_SNIPPET_START='^# --- SSH Agent Configuration( \(setup-vps-user\.sh\))? ---$'
+if grep -qE "$OLD_SNIPPET_START" ~/.bashrc; then
+  cp ~/.bashrc ~/.bashrc.bak
+  sed -i -E "/$OLD_SNIPPET_START/,/^# --- End SSH Agent Configuration ---\$/d" ~/.bashrc
   rm -f "$HOME/.ssh/agent-environment"
-  echo "removed the old ssh-agent snippet from ~/.bashrc"
+  echo "removed the old ssh-agent snippet from ~/.bashrc (backup: ~/.bashrc.bak)"
 fi
 
 # Prints the public key at the end. Re-run once GitHub has it: that switches the

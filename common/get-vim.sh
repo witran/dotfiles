@@ -3,7 +3,7 @@
 # Idempotent: skips when an up-to-date vim is already installed.
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
-VERSION=9.2.1132
+VERSION=9.2.1302
 
 if [ "$(uname -s)" = "Darwin" ]; then
   require_brew

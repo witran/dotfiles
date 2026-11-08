@@ -13,9 +13,27 @@ install_tpm() {
   else
     git clone https://github.com/tmux-plugins/tpm "$dir"
   fi
-  # install_plugins needs a running server; otherwise press prefix + I in tmux.
+  # tpm's install_plugins asks a running server where plugins go. Use the
+  # running one if there is one (then reload it: prefix + r). Otherwise start a
+  # throwaway server on its own socket dir, so continuum's restore-on-start
+  # can't bring back sessions in a server that lingers after this script.
   if tmux list-sessions >/dev/null 2>&1; then
     "$dir/bin/install_plugins"
+  else
+    local tmpdir rc=0
+    tmpdir="$(mktemp -d)"
+    # Unset TMUX too: when set (e.g. a stale value), tmux uses it over TMUX_TMPDIR.
+    on_tmp_server() { env -u TMUX TMUX_TMPDIR="$tmpdir" "$@"; }
+    on_tmp_server tmux new-session -d -s tpm-install
+    # tmux.conf starts tpm with `run -b`: wait until it has set the plugin path.
+    for _ in $(seq 1 20); do
+      on_tmp_server tmux show-environment -g TMUX_PLUGIN_MANAGER_PATH >/dev/null 2>&1 && break
+      sleep 0.25
+    done
+    on_tmp_server "$dir/bin/install_plugins" || rc=$?
+    on_tmp_server tmux kill-server 2>/dev/null || true
+    rm -rf "$tmpdir"
+    return "$rc"
   fi
 }
 

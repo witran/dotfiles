@@ -11,7 +11,7 @@
 - [x] Install Claude Code from a mac script too: `common/get-claude.sh`, run by `common/setup.sh`.
 
 ## Deferred
-- [ ] Test `common/setup-filebrowser.sh` on the VPS (moved from `vps/`; port changed from 5000 to 8090).
+- [x] Test `common/setup-filebrowser.sh` on the VPS (moved from `vps/`; port changed from 5000 to 8090). Done 2026-11-08.
 - [ ] Turn on provider snapshots/backups for the VPS (or make sure `~/code` is always pushed).
 - [ ] Decide on passwordless sudo for the dev user: anything Claude Code runs (especially with permissions bypassed) can become root.
 - [ ] File Browser was archived upstream on 2026-09-01 (no more security fixes): consider a maintained replacement.

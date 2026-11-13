@@ -108,12 +108,12 @@ else
   echo "firewall is off — nothing to allow"
 fi
 
-# --- 7. Keep the Mac awake (caffeinate -d) -----------------------------------
+# --- 7. Keep the Mac awake (caffeinate -di) ----------------------------------
 # A LaunchDaemon (not a LaunchAgent) so it also runs at the login window after
-# a reboot. Holding the display awake also keeps the system awake (powerd won't
-# idle-sleep while the display is on), on AC and battery. Closing the lid still
-# sleeps the Mac.
-step "Prevent sleep (caffeinate -d)"
+# a reboot. -d keeps the display on; -i keeps the system awake even if the
+# display is forced off (e.g. Alfred "sleepdisplays"). Both work on AC and
+# battery. Explicit sleep (Apple menu, Alfred "sleep", lid close) still sleeps.
+step "Prevent sleep (caffeinate -di)"
 CAFF_LABEL=com.dotfiles.caffeinate
 CAFF_PLIST=/Library/LaunchDaemons/$CAFF_LABEL.plist
 sudo tee "$CAFF_PLIST" >/dev/null <<EOF
@@ -126,7 +126,7 @@ sudo tee "$CAFF_PLIST" >/dev/null <<EOF
   <key>ProgramArguments</key>
   <array>
     <string>/usr/bin/caffeinate</string>
-    <string>-d</string>
+    <string>-di</string>
   </array>
   <key>RunAtLoad</key>
   <true/>
@@ -139,7 +139,7 @@ sudo chown root:wheel "$CAFF_PLIST"
 sudo chmod 644 "$CAFF_PLIST"
 sudo launchctl bootout "system/$CAFF_LABEL" 2>/dev/null || true
 sudo launchctl bootstrap system "$CAFF_PLIST"
-echo "caffeinate -d running as $CAFF_LABEL (undo: sudo launchctl bootout system/$CAFF_LABEL && sudo rm $CAFF_PLIST)"
+echo "caffeinate -di running as $CAFF_LABEL (undo: sudo launchctl bootout system/$CAFF_LABEL && sudo rm $CAFF_PLIST)"
 
 # --- 8. Summary --------------------------------------------------------------
 step "Done"

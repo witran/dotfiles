@@ -86,6 +86,15 @@ bash mac/setup-remote-dev.sh "$(pbpaste)"
 
 This turns on sshd and mosh, makes SSH key-only, and prints the Tailscale IP. Test from Termux: `mosh <user>@<tailscale-ip>`.
 
+It also installs a LaunchDaemon that runs `caffeinate -i`, so the Mac doesn't idle-sleep (on AC or battery) while the lid is open. The display still turns off on its timer. Explicit sleep (Apple menu, Alfred `sleep`, closing the lid) still sleeps the Mac and drops the session. To check it over ssh:
+
+```sh
+pmset -g assertions | grep -A1 caffeinate        # PreventUserIdleSystemSleep, "asserting forever"
+pmset -g | grep ' sleep '                         # "sleep prevented by caffeinate"
+pmset -g log | grep -E 'Display is turned (on|off)' | tail -1   # current display state
+pmset displaysleepnow                             # turn the display off now; the Mac stays awake
+```
+
 Open a new terminal on the Mac afterwards so `~/.zshrc` changes take effect.
 
 ### 5. Optional extras
